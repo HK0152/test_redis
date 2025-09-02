@@ -64,12 +64,12 @@ app.get('/check_message', async (req, res) => {
             });
         }
 
-        // v4系では lRange を使用（大文字始まり）
-        const messages = await client.lRange('message', 0, 0);
+        // v4系では lPop を使用（大文字始まり）
+        const message = await client.lPop('message');
 
         res.status(200).json({
             status: 200,
-            result: messages
+            result: message || "メッセージがありません"
         });
     } catch (error) {
         console.error('Redisエラー:', error);
