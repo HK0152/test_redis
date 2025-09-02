@@ -1,0 +1,21 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis_data:/data
+    command: redis-server --appendonly yes
+
+  web:
+    build: .
+    container_name: web
+    depends_on:
+      - redis
+    ports:
+      - "3000:3000"
+
+networks:
+  default:
+    driver: bridge
